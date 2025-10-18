@@ -33,6 +33,7 @@ struct Object{
     uint vao;
     uint vbo;
     int num_vertices;
+    int num_faces;
 
     struct Material*material;
 };
@@ -40,10 +41,15 @@ struct Object{
 /**
  * num_vertices: number of vertices
  * vertices: vertex data (3 floats per vertex!)
+ * num_faces: number of faces (triangles)
+ * faces: face data (3 uints per face!)
  */
 void Object_create(
     int num_vertices,
     float *vertices,
+    int num_faces,
+    uint*faces,
+    
     struct Material*material,
 
     struct Object*object

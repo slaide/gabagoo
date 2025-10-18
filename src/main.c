@@ -15,6 +15,9 @@ static float triangle_vertices[] = {
     0.5f, -0.5f, 0.0f,
     0.0f,  0.5f, 0.0f
 };
+static uint faces[]={
+    0,1,2,
+};
 
 int main(){
     struct SystemInterface system_interface={};
@@ -36,7 +39,12 @@ int main(){
     );
 
     struct Object object;
-    Object_create(3,triangle_vertices,&material,&object);
+    Object_create(
+        3,triangle_vertices,
+        1,faces,
+        &material,
+        &object
+    );
 
     bool window_should_close=false;
     int64_t framenum=0;

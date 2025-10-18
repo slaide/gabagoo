@@ -5,6 +5,18 @@
 #include<util.h>
 #include<window.h>
 
+const char*fileContents(const char*filepath){
+    FILE* f=fopen(filepath,"rb");
+    CHECK(f!=nullptr,"failed to open file");
+    fseek(f,0,SEEK_END);
+    int filelen=ftell(f);
+    fseek(f,0,SEEK_SET);
+    char*content=calloc(1,filelen+1);
+    fread(content,filelen,1,f);
+    fclose(f);
+    return content;
+}
+
 enum SYSTEM_RESULT SystemInterface_create(struct SystemInterface*system_interface){
     system_interface->con=xcb_connect(nullptr,nullptr);
     CHECK(system_interface->con != nullptr,"xcb connection failed");
@@ -13,17 +25,6 @@ enum SYSTEM_RESULT SystemInterface_create(struct SystemInterface*system_interfac
 }
 void SystemInterface_destroy(struct SystemInterface*system_interface){
     xcb_disconnect(system_interface->con);
-}
-
-const char*fileContents(const char*filepath){
-    FILE* f=fopen(filepath,"rb");
-    fseek(f,0,SEEK_END);
-    int filelen=ftell(f);
-    fseek(f,0,SEEK_SET);
-    char*content=calloc(1,filelen+1);
-    fread(content,filelen,1,f);
-    fclose(f);
-    return content;
 }
 
 void Material_create(const char*vertexShaderPath,const char*fragmentShaderPath,struct Material*material){
@@ -54,6 +55,8 @@ void Material_create(const char*vertexShaderPath,const char*fragmentShaderPath,s
 void Object_create(
     int num_vertices,
     float *vertices,
+    int num_faces,
+    uint*faces,
     struct Material*material,
 
     struct Object*object
@@ -62,16 +65,24 @@ void Object_create(
     uint vao;
     glGenVertexArrays(1,&vao);
 
+    glBindVertexArray(vao);
+
     // vertex buffer object
     uint vbo;
     glGenBuffers(1,&vbo);
 
-    glBindVertexArray(vao);
     // vertex buffer has type array buffer
-    glBindBuffer(GL_ARRAY_BUFFER,vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
     // upload data
     // STATIC_DRAW: written once, read many times
     glBufferData(GL_ARRAY_BUFFER, num_vertices*3*sizeof(float), vertices, GL_STATIC_DRAW);
+
+    // element buffer object
+    uint ebo;
+    glGenBuffers(1,&ebo);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, num_faces*3*sizeof(uint), faces, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(float),0);
     glEnableVertexAttribArray(0);
@@ -80,6 +91,7 @@ void Object_create(
         .vao=vao,
         .vbo=vbo,
         .num_vertices=num_vertices,
+        .num_faces=num_faces,
 
         .material=material
     };
@@ -88,7 +100,7 @@ void Object_create(
 void Object_draw(struct Object*object){
     glUseProgram(object->material->shaderProgram);
     glBindVertexArray(object->vao);
-    glDrawArrays(GL_TRIANGLES,0,object->num_vertices);
+    glDrawElements(GL_TRIANGLES,object->num_faces*3,GL_UNSIGNED_INT,0);
 }
 
 void Window_create(struct WindowOptions*options,struct SystemInterface*system_interface,struct Window*window){
