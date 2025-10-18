@@ -38,12 +38,78 @@ int main(){
         &material
     );
 
+    struct ObjectVertexAttribute*triangleVertexAttributes=malloc(sizeof(struct ObjectVertexAttribute));
+    triangleVertexAttributes[0]=(struct ObjectVertexAttribute){
+        .itemOffset=0,
+        .location=0,
+        .itemType=GL_FLOAT,
+        .numVertexItems=3
+    };
+
+    struct ObjectVertexInformation triangle_vertex_info={
+        .num_vertices=3,
+        .stride=3*sizeof(float),
+        .vertex_data=triangle_vertices,
+
+        .numVertexAttributes=1,
+        .vertexAttributes=triangleVertexAttributes
+    };
+
     struct Object object;
     Object_create(
-        3,triangle_vertices,
         1,faces,
+        &triangle_vertex_info,
         &material,
         &object
+    );
+
+    float quad_vertices[]={
+         .5,  .5, 0,  1, 1,
+         .5, -.5, 0,  1, 0,
+        -.5, -.5, 0,  0, 0,
+        -.5,  .5, 0,  0, 1,
+    };
+    uint quad_faces[2*3]={
+        0,1,2,
+        2,3,0,
+    };
+
+    struct Material image_material;
+    Material_create(
+        "resources/img_quad.vert.glsl",
+        "resources/img_quad.frag.glsl",
+        &image_material
+    );
+
+    struct ObjectVertexAttribute*quadVertexAttributes=malloc(sizeof(struct ObjectVertexAttribute[2]));
+    quadVertexAttributes[0]=(struct ObjectVertexAttribute){
+        .itemOffset=0,
+        .location=0,
+        .itemType=GL_FLOAT,
+        .numVertexItems=3
+    };
+    quadVertexAttributes[1]=(struct ObjectVertexAttribute){
+        .itemOffset=3*sizeof(float),
+        .location=1,
+        .itemType=GL_FLOAT,
+        .numVertexItems=2
+    };
+
+    struct ObjectVertexInformation quad_vertex_info={
+        .num_vertices=4,
+        .stride=5*sizeof(float),
+        .vertex_data=quad_vertices,
+
+        .numVertexAttributes=2,
+        .vertexAttributes=quadVertexAttributes
+    };
+
+    struct Object image_object;
+    Object_create(
+        2,quad_faces,
+        &quad_vertex_info,
+        &image_material,
+        &image_object
     );
 
     bool window_should_close=false;
@@ -98,6 +164,7 @@ int main(){
         Window_prepareDrawing(&window);
 
         Object_draw(&object);
+        Object_draw(&image_object);
 
         Window_finishDrawing(&window);
     }

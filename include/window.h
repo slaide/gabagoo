@@ -38,6 +38,25 @@ struct Object{
     struct Material*material;
 };
 
+struct ObjectVertexAttribute{
+    int location;
+    int numVertexItems;
+    // GL_FLOAT etc.
+    int itemType;
+    // offset into per-vertex data block
+    int64_t itemOffset;
+};
+struct ObjectVertexInformation{
+    int num_vertices;
+
+    // data for all vertices
+    void*vertex_data;
+    // size of data per vertex
+    int stride;
+
+    int numVertexAttributes;
+    struct ObjectVertexAttribute*vertexAttributes;
+};
 /**
  * num_vertices: number of vertices
  * vertices: vertex data (3 floats per vertex!)
@@ -45,10 +64,10 @@ struct Object{
  * faces: face data (3 uints per face!)
  */
 void Object_create(
-    int num_vertices,
-    float *vertices,
     int num_faces,
     uint*faces,
+
+    struct ObjectVertexInformation *vertex_info,
     
     struct Material*material,
 

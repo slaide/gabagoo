@@ -53,15 +53,16 @@ void Material_create(const char*vertexShaderPath,const char*fragmentShaderPath,s
 }
 
 void Object_create(
-    int num_vertices,
-    float *vertices,
     int num_faces,
     uint*faces,
+
+    struct ObjectVertexInformation *vertex_info,
+    
     struct Material*material,
 
     struct Object*object
 ){
-    // vertex attribute array (contains pointers to vertex buffers)
+    // vertex array object (contains pointers to vertex buffers)
     uint vao;
     glGenVertexArrays(1,&vao);
 
@@ -75,7 +76,7 @@ void Object_create(
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     // upload data
     // STATIC_DRAW: written once, read many times
-    glBufferData(GL_ARRAY_BUFFER, num_vertices*3*sizeof(float), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertex_info->num_vertices*vertex_info->stride, vertex_info->vertex_data, GL_STATIC_DRAW);
 
     // element buffer object
     uint ebo;
@@ -84,13 +85,22 @@ void Object_create(
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, num_faces*3*sizeof(uint), faces, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(float),0);
-    glEnableVertexAttribArray(0);
-
+    for(int i=0;i<vertex_info->numVertexAttributes;i++){
+        const struct ObjectVertexAttribute attribute=vertex_info->vertexAttributes[i];
+        glVertexAttribPointer(
+            attribute.location,
+            attribute.numVertexItems,attribute.itemType,
+            GL_FALSE,
+            vertex_info->stride,
+            (void*)attribute.itemOffset
+        );
+        glEnableVertexAttribArray(attribute.location);
+    }
+    
     *object=(struct Object){
         .vao=vao,
         .vbo=vbo,
-        .num_vertices=num_vertices,
+        .num_vertices=vertex_info->num_vertices,
         .num_faces=num_faces,
 
         .material=material
