@@ -7,7 +7,7 @@ CGLM_INCLUDE=$(CGLM_DIR)/include
 
 CFLAGS=-std=gnu23 -Wall -Werror -Wextra -Wpedantic
 INCLUDES=-Iinclude -I$(CGLM_INCLUDE)
-OBJECTS=main.o egl.o gl.o
+OBJECTS=main.o egl.o gl.o window.o
 LIBS=-lxcb -lm -ldl
 
 %.o: src/%.c
