@@ -1,6 +1,12 @@
 {
   "C_Cpp.default.compileCommands": "${workspaceFolder}/compile_commands.json",
   "C_Cpp.inlayHints.parameterNames.enabled": true,
+  "C_Cpp.codeAnalysis.enabled": true,
+  "C_Cpp.codeAnalysis.runAutomatically": true,
+  "C_Cpp.codeAnalysis.clangTidy.enabled": false,
+  "[c]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
   "files.associations": {
     "charconv": "c",
     "chrono": "c",
@@ -13,5 +19,6 @@
     "tuple": "c",
     "type_traits": "c",
     "utility": "c"
-  }
+  },
+  "cmake.ignoreCMakeListsMissing": true
 }

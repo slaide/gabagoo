@@ -129,6 +129,11 @@ void Object_create(
     struct Object*object
 ){
     *object=(struct Object){
+        .transform={
+            .scale[0]=1,
+            .scale[1]=1,
+            .scale[2]=1,
+        },
         .mesh=mesh,
         .material=material,
 

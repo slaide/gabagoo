@@ -1,7 +1,6 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<unistd.h>
-#include<string.h>
 
 #include<xcb/xcb.h>
 
@@ -144,11 +143,12 @@ int main(){
         model_loc=glGetUniformLocation(image_object.material->shaderProgram,"model");
 
     mat4 obj_mat;
-    glm_mat4_identity(obj_mat);
+    Transform_getModelMatrix(&image_object.transform,&obj_mat);
 
     mat4 cam_view_mat, cam_proj_mat;
 
     vec3 cam_move_axes={0,0,0};
+    vec3 cam_move_speed={0.1,0.1,0.1};
 
     bool window_should_close=false;
     int64_t framenum=0;
@@ -245,9 +245,8 @@ int main(){
             }
         }
 
-        camera.pos[0]+=cam_move_axes[0]*0.1;
-        camera.pos[1]+=cam_move_axes[1]*0.1;
-        camera.pos[2]+=cam_move_axes[2]*0.1;
+        // move camera
+        glm_vec3_muladd(cam_move_axes,cam_move_speed,camera.pos);
 
         if(window_should_close) break;
 
@@ -257,7 +256,8 @@ int main(){
 
         // Update camera matrices
         vec3 up = {0.0f, 0.0f, 1.0f};
-        glm_lookat(camera.pos, (vec3){0.0f, 0.0f, 0.0f}, up, cam_view_mat);
+        vec3 cam_target={0,0,0};
+        glm_lookat(camera.pos, cam_target, up, cam_view_mat);
 
         // Update perspective projection matrix
         float aspect = (float)window.size[0] / (float)window.size[1];
