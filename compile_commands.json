@@ -1,32 +1,15 @@
 [
   {
     "arguments": [
-      "/home/patrick/.local/share/swiftly/bin/clang",
+      "/usr/bin/clang-20",
       "-c",
       "-std=gnu23",
       "-Wall",
       "-Werror",
       "-Wextra",
       "-Wpedantic",
-      "-Iinclude",
-      "-Isrc/deps/cglm/include",
-      "-o",
-      "main.o",
-      "src/main.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo",
-    "file": "/home/patrick/code/gabagoo/src/main.c",
-    "output": "/home/patrick/code/gabagoo/main.o"
-  },
-  {
-    "arguments": [
-      "/home/patrick/.local/share/swiftly/bin/clang",
-      "-c",
-      "-std=gnu23",
-      "-Wall",
-      "-Werror",
-      "-Wextra",
-      "-Wpedantic",
+      "-O2",
+      "-march=native",
       "-Iinclude",
       "-Isrc/deps/cglm/include",
       "-o",
@@ -39,13 +22,36 @@
   },
   {
     "arguments": [
-      "/home/patrick/.local/share/swiftly/bin/clang",
+      "/usr/bin/clang-20",
       "-c",
       "-std=gnu23",
       "-Wall",
       "-Werror",
       "-Wextra",
       "-Wpedantic",
+      "-O2",
+      "-march=native",
+      "-Iinclude",
+      "-Isrc/deps/cglm/include",
+      "-o",
+      "main.o",
+      "src/main.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo",
+    "file": "/home/patrick/code/gabagoo/src/main.c",
+    "output": "/home/patrick/code/gabagoo/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang-20",
+      "-c",
+      "-std=gnu23",
+      "-Wall",
+      "-Werror",
+      "-Wextra",
+      "-Wpedantic",
+      "-O2",
+      "-march=native",
       "-Iinclude",
       "-Isrc/deps/cglm/include",
       "-o",
@@ -58,13 +64,15 @@
   },
   {
     "arguments": [
-      "/home/patrick/.local/share/swiftly/bin/clang",
+      "/usr/bin/clang-20",
       "-c",
       "-std=gnu23",
       "-Wall",
       "-Werror",
       "-Wextra",
       "-Wpedantic",
+      "-O2",
+      "-march=native",
       "-Iinclude",
       "-Isrc/deps/cglm/include",
       "-o",
@@ -77,164 +85,24 @@
   },
   {
     "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
+      "/usr/bin/clang-20",
+      "-c",
+      "-std=gnu23",
       "-Wall",
+      "-Werror",
       "-Wextra",
       "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
+      "-O2",
+      "-march=native",
+      "-Iinclude",
+      "-Isrc/deps/cglm/include",
       "-o",
-      "CMakeFiles/cglm.dir/src/io.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/io.c"
+      "object.o",
+      "src/object.c"
     ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/io.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/io.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/vec2.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/vec2.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/vec2.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/vec2.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/ivec2.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/ivec2.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/ivec2.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/ivec2.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/quat.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/quat.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/quat.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/quat.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/mat4x2.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/mat4x2.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/mat4x2.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/mat4x2.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/ivec4.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/ivec4.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/ivec4.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/ivec4.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/mat2x4.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/mat2x4.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/mat2x4.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/mat2x4.c.o"
+    "directory": "/home/patrick/code/gabagoo",
+    "file": "/home/patrick/code/gabagoo/src/object.c",
+    "output": "/home/patrick/code/gabagoo/object.o"
   },
   {
     "arguments": [
@@ -275,144 +143,6 @@
       "-O3",
       "-c",
       "-o",
-      "CMakeFiles/cglm.dir/src/noise.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/noise.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/noise.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/noise.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/plane.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/plane.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/plane.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/plane.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/mat3x2.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/mat3x2.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/mat3x2.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/mat3x2.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/mat4.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/mat4.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/mat4.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/mat4.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/clipspace/view_rh_zo.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_rh_zo.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_rh_zo.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/view_rh_zo.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/clipspace/persp_rh_no.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/persp_rh_no.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/persp_rh_no.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/persp_rh_no.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
       "CMakeFiles/cglm.dir/src/mat3x4.c.o",
       "/home/patrick/code/gabagoo/src/deps/cglm/src/mat3x4.c"
     ],
@@ -436,58 +166,12 @@
       "-O3",
       "-c",
       "-o",
-      "CMakeFiles/cglm.dir/src/mat2x3.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/mat2x3.c"
+      "CMakeFiles/cglm.dir/src/vec2.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/vec2.c"
     ],
     "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/mat2x3.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/mat2x3.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/ray.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/ray.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/ray.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/ray.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/mat4x3.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/mat4x3.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/mat4x3.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/mat4x3.c.o"
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/vec2.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/vec2.c.o"
   },
   {
     "arguments": [
@@ -528,12 +212,58 @@
       "-O3",
       "-c",
       "-o",
-      "CMakeFiles/cglm.dir/src/affine2d.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/affine2d.c"
+      "CMakeFiles/cglm.dir/src/cam.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/cam.c"
     ],
     "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/affine2d.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/affine2d.c.o"
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/cam.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/cam.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/mat3x2.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/mat3x2.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/mat3x2.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/mat3x2.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/mat4x3.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/mat4x3.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/mat4x3.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/mat4x3.c.o"
   },
   {
     "arguments": [
@@ -597,12 +327,12 @@
       "-O3",
       "-c",
       "-o",
-      "CMakeFiles/cglm.dir/src/clipspace/view_lh_no.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_lh_no.c"
+      "CMakeFiles/cglm.dir/src/vec4.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/vec4.c"
     ],
     "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_lh_no.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/view_lh_no.c.o"
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/vec4.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/vec4.c.o"
   },
   {
     "arguments": [
@@ -620,12 +350,12 @@
       "-O3",
       "-c",
       "-o",
-      "CMakeFiles/cglm.dir/src/frustum.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/frustum.c"
+      "CMakeFiles/cglm.dir/src/mat4.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/mat4.c"
     ],
     "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/frustum.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/frustum.c.o"
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/mat4.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/mat4.c.o"
   },
   {
     "arguments": [
@@ -643,12 +373,12 @@
       "-O3",
       "-c",
       "-o",
-      "CMakeFiles/cglm.dir/src/ivec3.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/ivec3.c"
+      "CMakeFiles/cglm.dir/src/mat2x3.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/mat2x3.c"
     ],
     "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/ivec3.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/ivec3.c.o"
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/mat2x3.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/mat2x3.c.o"
   },
   {
     "arguments": [
@@ -666,12 +396,104 @@
       "-O3",
       "-c",
       "-o",
-      "CMakeFiles/cglm.dir/src/sphere.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/sphere.c"
+      "CMakeFiles/cglm.dir/src/io.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/io.c"
     ],
     "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/sphere.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/sphere.c.o"
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/io.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/io.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/box.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/box.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/box.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/box.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/euler.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/euler.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/euler.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/euler.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/quat.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/quat.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/quat.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/quat.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/ivec2.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/ivec2.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/ivec2.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/ivec2.c.o"
   },
   {
     "arguments": [
@@ -712,35 +534,12 @@
       "-O3",
       "-c",
       "-o",
-      "CMakeFiles/cglm.dir/src/clipspace/project_zo.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/project_zo.c"
+      "CMakeFiles/cglm.dir/src/clipspace/ortho_lh_zo.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_lh_zo.c"
     ],
     "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/project_zo.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/project_zo.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/clipspace/project_no.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/project_no.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/project_no.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/project_no.c.o"
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_lh_zo.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/ortho_lh_zo.c.o"
   },
   {
     "arguments": [
@@ -781,12 +580,12 @@
       "-O3",
       "-c",
       "-o",
-      "CMakeFiles/cglm.dir/src/vec4.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/vec4.c"
+      "CMakeFiles/cglm.dir/src/bezier.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/bezier.c"
     ],
     "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/vec4.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/vec4.c.o"
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/bezier.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/bezier.c.o"
   },
   {
     "arguments": [
@@ -804,12 +603,380 @@
       "-O3",
       "-c",
       "-o",
-      "CMakeFiles/cglm.dir/src/euler.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/euler.c"
+      "CMakeFiles/cglm.dir/src/clipspace/project_zo.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/project_zo.c"
     ],
     "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/euler.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/euler.c.o"
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/project_zo.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/project_zo.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/ivec4.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/ivec4.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/ivec4.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/ivec4.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/clipspace/view_lh_no.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_lh_no.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_lh_no.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/view_lh_no.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/clipspace/ortho_rh_no.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_rh_no.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_rh_no.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/ortho_rh_no.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/clipspace/view_rh_zo.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_rh_zo.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_rh_zo.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/view_rh_zo.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/clipspace/view_rh_no.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_rh_no.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_rh_no.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/view_rh_no.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/plane.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/plane.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/plane.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/plane.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/clipspace/view_lh_zo.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_lh_zo.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_lh_zo.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/view_lh_zo.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/frustum.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/frustum.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/frustum.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/frustum.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/mat2x4.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/mat2x4.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/mat2x4.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/mat2x4.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/noise.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/noise.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/noise.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/noise.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/clipspace/persp_lh_no.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/persp_lh_no.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/persp_lh_no.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/persp_lh_no.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/clipspace/persp_rh_no.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/persp_rh_no.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/persp_rh_no.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/persp_rh_no.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/mat4x2.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/mat4x2.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/mat4x2.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/mat4x2.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/sphere.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/sphere.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/sphere.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/sphere.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/affine2d.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/affine2d.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/affine2d.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/affine2d.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/ivec3.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/ivec3.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/ivec3.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/ivec3.c.o"
   },
   {
     "arguments": [
@@ -873,219 +1040,35 @@
       "-O3",
       "-c",
       "-o",
+      "CMakeFiles/cglm.dir/src/clipspace/project_no.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/project_no.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/project_no.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/project_no.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
       "CMakeFiles/cglm.dir/src/clipspace/persp_lh_zo.c.o",
       "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/persp_lh_zo.c"
     ],
     "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
     "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/persp_lh_zo.c",
     "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/persp_lh_zo.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/bezier.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/bezier.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/bezier.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/bezier.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/box.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/box.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/box.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/box.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/clipspace/ortho_rh_zo.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_rh_zo.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_rh_zo.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/ortho_rh_zo.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/clipspace/view_rh_no.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_rh_no.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_rh_no.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/view_rh_no.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/clipspace/ortho_rh_no.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_rh_no.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_rh_no.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/ortho_rh_no.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/cam.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/cam.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/cam.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/cam.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/clipspace/ortho_lh_zo.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_lh_zo.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_lh_zo.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/ortho_lh_zo.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/clipspace/view_lh_zo.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_lh_zo.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/view_lh_zo.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/view_lh_zo.c.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/cc",
-      "-DCGLM_STATIC",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
-      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
-      "-O3",
-      "-DNDEBUG",
-      "-std=gnu11",
-      "-Wall",
-      "-Wextra",
-      "-Wpedantic",
-      "-Wconversion",
-      "-O3",
-      "-c",
-      "-o",
-      "CMakeFiles/cglm.dir/src/clipspace/persp_lh_no.c.o",
-      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/persp_lh_no.c"
-    ],
-    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
-    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/persp_lh_no.c",
-    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/persp_lh_no.c.o"
   },
   {
     "arguments": [
@@ -1126,11 +1109,57 @@
       "-O3",
       "-c",
       "-o",
+      "CMakeFiles/cglm.dir/src/ray.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/ray.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/ray.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/ray.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
       "CMakeFiles/cglm.dir/src/clipspace/ortho_lh_no.c.o",
       "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_lh_no.c"
     ],
     "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
     "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_lh_no.c",
     "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/ortho_lh_no.c.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-DCGLM_STATIC",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/include",
+      "-I/home/patrick/code/gabagoo/src/deps/cglm/src",
+      "-O3",
+      "-DNDEBUG",
+      "-std=gnu11",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wconversion",
+      "-O3",
+      "-c",
+      "-o",
+      "CMakeFiles/cglm.dir/src/clipspace/ortho_rh_zo.c.o",
+      "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_rh_zo.c"
+    ],
+    "directory": "/home/patrick/code/gabagoo/src/deps/cglm/build",
+    "file": "/home/patrick/code/gabagoo/src/deps/cglm/src/clipspace/ortho_rh_zo.c",
+    "output": "/home/patrick/code/gabagoo/src/deps/cglm/build/CMakeFiles/cglm.dir/src/clipspace/ortho_rh_zo.c.o"
   }
 ]

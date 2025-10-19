@@ -7,6 +7,7 @@
 #include<cglm/cglm.h>
 
 #include<window.h>
+#include<object.h>
 #include<util.h>
 
 static float triangle_vertices[] = {
@@ -123,27 +124,33 @@ int main(){
         &image_object
     );
 
+    struct Material imported_material;
+    Material_create(
+        "resources/obj.vert.glsl",
+        "resources/obj.frag.glsl",
+        &imported_material
+    );
+
+    struct Mesh imported_mesh;
+    Mesh_parseObj("resources/pillow.obj",&imported_mesh);
+
+    struct Object imported_object;
+    Object_create(
+        &imported_mesh,
+        &imported_material,
+        &imported_object
+    );
+
     // Initialize camera
     struct{
         vec3 pos;
         /*quat*/vec4 rotation;
         float horz_fov;
     }camera={
-        .pos[0]=1,
-        .pos[1]=1,
-        .pos[2]=1,
+        .pos={1,1,1},
         .horz_fov=75
     };
     glm_quat_identity(camera.rotation);
-
-    // Setup matrices for image_object
-    GLint
-        view_loc=glGetUniformLocation(image_object.material->shaderProgram,"view"),
-        proj_loc=glGetUniformLocation(image_object.material->shaderProgram,"projection"),
-        model_loc=glGetUniformLocation(image_object.material->shaderProgram,"model");
-
-    mat4 obj_mat;
-    Transform_getModelMatrix(&image_object.transform,&obj_mat);
 
     mat4 cam_view_mat, cam_proj_mat;
 
@@ -168,7 +175,6 @@ int main(){
                         // this event is also triggered on window move, in which case we dont need to resize
                         if(event->width==window.size[0] && event->height==window.size[1])break;
 
-                        printf("got resized to w%d h%d\n",event->width,event->height);
                         window.size[0]=event->width;
                         window.size[1]=event->height;
                         glViewport(0,0,window.size[0],window.size[1]);
@@ -245,15 +251,14 @@ int main(){
             }
         }
 
-        // move camera
-        glm_vec3_muladd(cam_move_axes,cam_move_speed,camera.pos);
-
         if(window_should_close) break;
 
         Window_prepareDrawing(&window);
 
         //Object_draw(&object);
 
+        // move camera
+        glm_vec3_muladd(cam_move_axes,cam_move_speed,camera.pos);
         // Update camera matrices
         vec3 up = {0.0f, 0.0f, 1.0f};
         vec3 cam_target={0,0,0};
@@ -263,12 +268,33 @@ int main(){
         float aspect = (float)window.size[0] / (float)window.size[1];
         glm_perspective(glm_rad(camera.horz_fov), aspect, 0.1f, 100.0f, cam_proj_mat);
 
+        // Setup matrices for image_object
+        GLint
+            view_loc=glGetUniformLocation(image_object.material->shaderProgram,"view"),
+            proj_loc=glGetUniformLocation(image_object.material->shaderProgram,"projection"),
+            model_loc=glGetUniformLocation(image_object.material->shaderProgram,"model");
+
+        mat4 obj_mat;
+        Transform_getModelMatrix(&image_object.transform,&obj_mat);
+
         // Upload matrices to GPU
         glUniformMatrix4fv(view_loc,1,GL_FALSE,(float*)cam_view_mat);
         glUniformMatrix4fv(proj_loc,1,GL_FALSE,(float*)cam_proj_mat);
         glUniformMatrix4fv(model_loc,1,GL_FALSE,(float*)obj_mat);
 
         Object_draw(&image_object);
+
+            view_loc=glGetUniformLocation(imported_object.material->shaderProgram,"view"),
+            proj_loc=glGetUniformLocation(imported_object.material->shaderProgram,"projection"),
+            model_loc=glGetUniformLocation(imported_object.material->shaderProgram,"model");
+
+        Transform_getModelMatrix(&imported_object.transform,&obj_mat);
+
+        glUniformMatrix4fv(view_loc,1,GL_FALSE,(float*)cam_view_mat);
+        glUniformMatrix4fv(proj_loc,1,GL_FALSE,(float*)cam_proj_mat);
+        glUniformMatrix4fv(model_loc,1,GL_FALSE,(float*)obj_mat);
+
+        Object_draw(&imported_object);
 
         Window_finishDrawing(&window);
     }

@@ -1,166 +1,8 @@
-#include<stdlib.h>
 #include<stdio.h>
 #include<string.h>
 
 #include<util.h>
 #include<window.h>
-
-const char*fileContents(const char*filepath){
-    FILE* f=fopen(filepath,"rb");
-    CHECK(f!=nullptr,"failed to open file");
-    fseek(f,0,SEEK_END);
-    int filelen=ftell(f);
-    fseek(f,0,SEEK_SET);
-    char*content=calloc(1,filelen+1);
-    fread(content,filelen,1,f);
-    fclose(f);
-    return content;
-}
-
-enum SYSTEM_RESULT SystemInterface_create(struct SystemInterface*system_interface){
-    system_interface->con=xcb_connect(nullptr,nullptr);
-    CHECK(system_interface->con != nullptr,"xcb connection failed");
-
-    return SYSTEM_RESULT_SUCCESS;
-}
-void SystemInterface_destroy(struct SystemInterface*system_interface){
-    xcb_disconnect(system_interface->con);
-}
-
-void Material_create(const char*vertexShaderPath,const char*fragmentShaderPath,struct Material*material){
-    const char*vertexShaderSource=fileContents(vertexShaderPath);
-    uint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource,nullptr);
-    glCompileShader(vertexShader);
-    //free((void*)vertexShaderSource);
-
-    const char*fragmentShaderSource=fileContents(fragmentShaderPath);
-    uint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource,nullptr);
-    glCompileShader(fragmentShader);
-    //free((void*)fragmentShaderSource);
-
-    uint shaderProgram=glCreateProgram();
-    glAttachShader(shaderProgram,fragmentShader);
-    glAttachShader(shaderProgram,vertexShader);
-    glLinkProgram(shaderProgram);
-
-    *material=(struct Material){
-        .vertexShader=vertexShader,
-        .fragmentShader=fragmentShader,
-        .shaderProgram=shaderProgram,
-    };
-}
-
-void Mesh_create(
-    int num_faces,
-    uint*faces,
-
-    struct VertexInformation *vertex_info,
-
-    struct Mesh*mesh
-){
-
-    // vertex array object (contains pointers to vertex buffers)
-    uint vao;
-    glGenVertexArrays(1,&vao);
-
-    glBindVertexArray(vao);
-
-    // vertex buffer object
-    uint vbo;
-    glGenBuffers(1,&vbo);
-
-    // vertex buffer has type array buffer
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    // upload data
-    // STATIC_DRAW: written once, read many times
-    glBufferData(GL_ARRAY_BUFFER, vertex_info->num_vertices*vertex_info->stride, vertex_info->vertex_data, GL_STATIC_DRAW);
-
-    // element buffer object
-    uint ebo;
-    glGenBuffers(1,&ebo);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, num_faces*3*sizeof(uint), faces, GL_STATIC_DRAW);
-
-    for(int i=0;i<vertex_info->numVertexAttributes;i++){
-        const struct VertexAttribute attribute=vertex_info->vertexAttributes[i];
-        glVertexAttribPointer(
-            attribute.location,
-            attribute.numVertexItems,attribute.itemType,
-            GL_FALSE,
-            vertex_info->stride,
-            (void*)attribute.itemOffset
-        );
-        glEnableVertexAttribArray(attribute.location);
-    }
-
-    *mesh=(struct Mesh){
-        .vao=vao,
-        .vbo=vbo,
-        .ebo=ebo,
-        .num_faces=num_faces,
-        .num_vertices=vertex_info->num_vertices
-    };
-}
-
-void Transform_getModelMatrix(struct Transform*transform,mat4*object_matrix){
-    mat4 rotation_matrix;
-
-    // Initialize to identity
-    glm_mat4_identity(*object_matrix);
-
-    // Apply translation
-    glm_translate(*object_matrix, transform->pos);
-
-    // Apply rotation (convert quaternion to rotation matrix)
-    glm_quat_mat4(transform->rot, rotation_matrix);
-    glm_mat4_mul(*object_matrix, rotation_matrix, *object_matrix);
-
-    // Apply scale
-    glm_scale(*object_matrix, transform->scale);
-}
-
-void Object_create(
-    struct Mesh*mesh,
-    struct Material*material,
-
-    struct Object*object
-){
-    *object=(struct Object){
-        .transform={
-            .scale[0]=1,
-            .scale[1]=1,
-            .scale[2]=1,
-        },
-        .mesh=mesh,
-        .material=material,
-
-        .num_children=0,
-        .children=nullptr
-    };
-}
-void Object_appendChild(struct Object*child,struct Object*parent){
-    parent->num_children++;
-    parent->children=realloc(parent->children,parent->num_children*sizeof(struct Object*));
-    parent->children[parent->num_children-1]=child;
-}
-
-void Object_draw(struct Object*object){
-    glUseProgram(object->material->shaderProgram);
-
-    glBindVertexArray(object->mesh->vao);
-    glDrawElements(GL_TRIANGLES,object->mesh->num_faces*3,GL_UNSIGNED_INT,0);
-
-    for(int c=0;c<object->num_children;c++){
-        Object_draw(object->children[c]);
-    }
-}
-
-void Object_destroy(struct Object*object){
-    free(object->children);
-}
 
 void Window_create(struct WindowOptions*options,struct SystemInterface*system_interface,struct Window*window){
     xcb_screen_t*screen=xcb_setup_roots_iterator(xcb_get_setup(system_interface->con)).data;
@@ -337,6 +179,11 @@ void Window_create(struct WindowOptions*options,struct SystemInterface*system_in
 
     // Enable sRGB framebuffer
     glEnable(GL_FRAMEBUFFER_SRGB);
+    // enable depth testing
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    // enable depth writing
+    glDepthMask(GL_TRUE);
 
     glClearColor(0.2, 0.4, 0.8, 1.0);
 
@@ -361,7 +208,7 @@ void Window_create(struct WindowOptions*options,struct SystemInterface*system_in
 void Window_prepareDrawing(struct Window*window){
     discard window;
 
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 void Window_finishDrawing(struct Window*window){
     auto egl_res=eglSwapBuffers(window->egl_display,window->egl_surface);
