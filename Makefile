@@ -5,7 +5,8 @@ CGLM_BUILD_DIR=$(CGLM_DIR)/build
 CGLM_LIB=$(CGLM_BUILD_DIR)/libcglm.a
 CGLM_INCLUDE=$(CGLM_DIR)/include
 
-CFLAGS=-std=gnu23 -Wall -Werror -Wextra -Wpedantic
+CFLAGS=-std=gnu23 -Wall -Werror -Wextra -Wpedantic -O2 -march=native
+LFLAGS=-flto
 INCLUDES=-Iinclude -I$(CGLM_INCLUDE)
 OBJECTS=main.o egl.o gl.o window.o
 LIBS=-lxcb -lm -ldl
@@ -14,7 +15,7 @@ LIBS=-lxcb -lm -ldl
 	$(CC) -c -o $@ $(CFLAGS) $(INCLUDES) $<
 
 main: $(OBJECTS) $(CGLM_LIB)
-	$(CC) -o main $(CFLAGS) $(LIBS) $(CGLM_LIB) $(OBJECTS)
+	$(CC) -o main $(CFLAGS) $(LFLAGS) $(LIBS) $(CGLM_LIB) $(OBJECTS)
 
 $(CGLM_LIB):
 	mkdir -p $(CGLM_BUILD_DIR)

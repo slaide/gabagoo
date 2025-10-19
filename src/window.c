@@ -52,16 +52,15 @@ void Material_create(const char*vertexShaderPath,const char*fragmentShaderPath,s
     };
 }
 
-void Object_create(
+void Mesh_create(
     int num_faces,
     uint*faces,
 
-    struct ObjectVertexInformation *vertex_info,
-    
-    struct Material*material,
+    struct VertexInformation *vertex_info,
 
-    struct Object*object
+    struct Mesh*mesh
 ){
+
     // vertex array object (contains pointers to vertex buffers)
     uint vao;
     glGenVertexArrays(1,&vao);
@@ -86,7 +85,7 @@ void Object_create(
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, num_faces*3*sizeof(uint), faces, GL_STATIC_DRAW);
 
     for(int i=0;i<vertex_info->numVertexAttributes;i++){
-        const struct ObjectVertexAttribute attribute=vertex_info->vertexAttributes[i];
+        const struct VertexAttribute attribute=vertex_info->vertexAttributes[i];
         glVertexAttribPointer(
             attribute.location,
             attribute.numVertexItems,attribute.itemType,
@@ -96,21 +95,33 @@ void Object_create(
         );
         glEnableVertexAttribArray(attribute.location);
     }
-    
-    *object=(struct Object){
+
+    *mesh=(struct Mesh){
         .vao=vao,
         .vbo=vbo,
-        .num_vertices=vertex_info->num_vertices,
+        .ebo=ebo,
         .num_faces=num_faces,
+        .num_vertices=vertex_info->num_vertices
+    };
+}
 
+void Object_create(
+    struct Mesh*mesh,
+    struct Material*material,
+
+    struct Object*object
+){  
+    *object=(struct Object){
+        .mesh=mesh,
         .material=material
     };
 }
 
 void Object_draw(struct Object*object){
     glUseProgram(object->material->shaderProgram);
-    glBindVertexArray(object->vao);
-    glDrawElements(GL_TRIANGLES,object->num_faces*3,GL_UNSIGNED_INT,0);
+
+    glBindVertexArray(object->mesh->vao);
+    glDrawElements(GL_TRIANGLES,object->mesh->num_faces*3,GL_UNSIGNED_INT,0);
 }
 
 void Window_create(struct WindowOptions*options,struct SystemInterface*system_interface,struct Window*window){

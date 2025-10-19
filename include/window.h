@@ -27,18 +27,7 @@ struct Material{
 };
 void Material_create(const char*vertexShaderPath,const char*fragmentShaderPath,struct Material*material);
 
-
-/* can be drawn */
-struct Object{
-    uint vao;
-    uint vbo;
-    int num_vertices;
-    int num_faces;
-
-    struct Material*material;
-};
-
-struct ObjectVertexAttribute{
+struct VertexAttribute{
     int location;
     int numVertexItems;
     // GL_FLOAT etc.
@@ -46,7 +35,7 @@ struct ObjectVertexAttribute{
     // offset into per-vertex data block
     int64_t itemOffset;
 };
-struct ObjectVertexInformation{
+struct VertexInformation{
     int num_vertices;
 
     // data for all vertices
@@ -55,8 +44,29 @@ struct ObjectVertexInformation{
     int stride;
 
     int numVertexAttributes;
-    struct ObjectVertexAttribute*vertexAttributes;
+    struct VertexAttribute*vertexAttributes;
 };
+
+struct Mesh{
+    uint vao,vbo,ebo;
+    int num_vertices;
+    int num_faces;
+};
+void Mesh_create(
+    int num_faces,
+    uint*faces,
+
+    struct VertexInformation *vertex_info,
+
+    struct Mesh*mesh
+);
+
+/* can be drawn */
+struct Object{
+    struct Mesh*mesh;
+    struct Material*material;
+};
+
 /**
  * num_vertices: number of vertices
  * vertices: vertex data (3 floats per vertex!)
@@ -64,11 +74,7 @@ struct ObjectVertexInformation{
  * faces: face data (3 uints per face!)
  */
 void Object_create(
-    int num_faces,
-    uint*faces,
-
-    struct ObjectVertexInformation *vertex_info,
-    
+    struct Mesh*mesh,
     struct Material*material,
 
     struct Object*object

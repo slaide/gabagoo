@@ -38,15 +38,15 @@ int main(){
         &material
     );
 
-    struct ObjectVertexAttribute*triangleVertexAttributes=malloc(sizeof(struct ObjectVertexAttribute));
-    triangleVertexAttributes[0]=(struct ObjectVertexAttribute){
+    struct VertexAttribute*triangleVertexAttributes=malloc(sizeof(struct VertexAttribute));
+    triangleVertexAttributes[0]=(struct VertexAttribute){
         .itemOffset=0,
         .location=0,
         .itemType=GL_FLOAT,
         .numVertexItems=3
     };
 
-    struct ObjectVertexInformation triangle_vertex_info={
+    struct VertexInformation triangle_vertex_info={
         .num_vertices=3,
         .stride=3*sizeof(float),
         .vertex_data=triangle_vertices,
@@ -55,10 +55,16 @@ int main(){
         .vertexAttributes=triangleVertexAttributes
     };
 
-    struct Object object;
-    Object_create(
+    struct Mesh triangle_mesh;
+    Mesh_create(
         1,faces,
         &triangle_vertex_info,
+        &triangle_mesh
+    );
+
+    struct Object object;
+    Object_create(
+        &triangle_mesh,
         &material,
         &object
     );
@@ -81,21 +87,21 @@ int main(){
         &image_material
     );
 
-    struct ObjectVertexAttribute*quadVertexAttributes=malloc(sizeof(struct ObjectVertexAttribute[2]));
-    quadVertexAttributes[0]=(struct ObjectVertexAttribute){
+    struct VertexAttribute*quadVertexAttributes=malloc(sizeof(struct VertexAttribute[2]));
+    quadVertexAttributes[0]=(struct VertexAttribute){
         .itemOffset=0,
         .location=0,
         .itemType=GL_FLOAT,
         .numVertexItems=3
     };
-    quadVertexAttributes[1]=(struct ObjectVertexAttribute){
+    quadVertexAttributes[1]=(struct VertexAttribute){
         .itemOffset=3*sizeof(float),
         .location=1,
         .itemType=GL_FLOAT,
         .numVertexItems=2
     };
 
-    struct ObjectVertexInformation quad_vertex_info={
+    struct VertexInformation quad_vertex_info={
         .num_vertices=4,
         .stride=5*sizeof(float),
         .vertex_data=quad_vertices,
@@ -104,10 +110,16 @@ int main(){
         .vertexAttributes=quadVertexAttributes
     };
 
-    struct Object image_object;
-    Object_create(
+    struct Mesh quad_mesh;
+    Mesh_create(
         2,quad_faces,
         &quad_vertex_info,
+        &quad_mesh
+    );
+
+    struct Object image_object;
+    Object_create(
+        &quad_mesh,
         &image_material,
         &image_object
     );
