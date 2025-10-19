@@ -6,6 +6,7 @@
 
 #include<window.h>
 #include<object.h>
+#include<camera.h>
 #include<util.h>
 
 static float triangle_vertices[] = {
@@ -16,7 +17,6 @@ static float triangle_vertices[] = {
 static uint faces[]={
     0,1,2,
 };
-
 
 static float quad_vertices[]={
     .5,  .5, 0,  1, 1,
@@ -29,22 +29,49 @@ static uint quad_faces[2*3]={
     2,3,0,
 };
 
-struct Camera{
-    float horz_fov;
-    float aspect_ratio;
-
-    vec3 pos;
-    /*quat*/vec4 rotation;
-
-    mat4 proj_mat,view_mat;
+static float ui_quad_vertices[]={
+    50, 80, 0,
+    50, 0,  0,
+    0,  0,  0,
+    0,  80, 0,
 };
-void Camera_create(
+static uint ui_quad_faces[2*3]={
+    0,1,2,
+    2,3,0,
+};
+
+/**
+ * aabb is x0y0x1y1
+ */
+void Camera2_create(vec4 aabb,struct Camera2*camera){
+    glm_vec4_copy(aabb, camera->aabb);
+
+    // Set view matrix to identity (no camera transformations for basic 2D rendering)
+    glm_mat4_identity(camera->view_mat);
+
+    // Set orthographic projection for the AABB bounds
+    // aabb format: [x0, y0, x1, y1]
+    glm_ortho(aabb[0], aabb[2], aabb[1], aabb[3], -1.0f, 1.0f, camera->proj_mat);
+}
+
+void Camera2_updateMatrices(struct Camera2*camera, vec4 aabb){
+    glm_vec4_copy(aabb, camera->aabb);
+
+    // Set view matrix to identity (no camera transformations for basic 2D rendering)
+    glm_mat4_identity(camera->view_mat);
+
+    // Update orthographic projection for the new AABB bounds
+    // aabb format: [x0, y0, x1, y1]
+    glm_ortho(aabb[0], aabb[2], aabb[1], aabb[3], -1.0f, 1.0f, camera->proj_mat);
+}
+
+void Camera3_create(
     float horz_fov,
     float aspect_ratio,
 
-    struct Camera*camera
+    struct Camera3*camera
 ){
-    *camera=(struct Camera){
+    *camera=(struct Camera3){
         .horz_fov=horz_fov,
         .aspect_ratio=aspect_ratio
     };
@@ -70,7 +97,7 @@ static void quat_up(vec4 quat, vec3 out){
     glm_quat_rotatev(quat, up, out);
 }
 
-void Camera_lookAt(struct Camera*camera, vec3 target){
+void Camera3_lookAt(struct Camera3*camera, vec3 target){
     // Calculate forward direction (from camera to target)
     vec3 forward;
     glm_vec3_sub(target, camera->pos, forward);
@@ -110,7 +137,7 @@ void Camera_lookAt(struct Camera*camera, vec3 target){
     glm_mat3_quat(basis, camera->rotation);
 }
 
-void Camera_updateMatrices(struct Camera*camera){
+void Camera3_updateMatrices(struct Camera3*camera){
     // Calculate forward vector from camera rotation
     vec3 forward;
     quat_forward(camera->rotation, forward);
@@ -241,9 +268,49 @@ int main(){
         &imported_object
     );
 
+    // Create UI material
+    struct Material ui_material;
+    Material_create(
+        "resources/ui_quad.vert.glsl",
+        "resources/ui_quad.frag.glsl",
+        &ui_material
+    );
+
+    // Create UI quad mesh
+    struct VertexAttribute*ui_vertex_attributes=malloc(sizeof(struct VertexAttribute));
+    ui_vertex_attributes[0]=(struct VertexAttribute){
+        .itemOffset=0,
+        .location=0,
+        .itemType=GL_FLOAT,
+        .numVertexItems=3
+    };
+
+    struct VertexInformation ui_vertex_info={
+        .num_vertices=4,
+        .stride=3*sizeof(float),
+        .vertex_data=ui_quad_vertices,
+
+        .numVertexAttributes=1,
+        .vertexAttributes=ui_vertex_attributes
+    };
+
+    struct Mesh ui_mesh;
+    Mesh_create(
+        2,ui_quad_faces,
+        &ui_vertex_info,
+        &ui_mesh
+    );
+
+    struct Object ui_object;
+    Object_create(
+        &ui_mesh,
+        &ui_material,
+        &ui_object
+    );
+
     // Initialize camera
-    struct Camera camera={};
-    Camera_create(
+    struct Camera3 camera={};
+    Camera3_create(
         75,
         (float)window.size[0] / (float)window.size[1],
         &camera
@@ -252,7 +319,7 @@ int main(){
     vec3 cam_position = {0.0f, 1.0f, 1.0f};
     glm_vec3_copy(cam_position, camera.pos);
     vec3 cam_target = {0.0f, 0.0f, 0.0f};
-    Camera_lookAt(&camera, cam_target);
+    Camera3_lookAt(&camera, cam_target);
 
     // for camera move controls
     vec3 cam_move_axes={0,0,0};
@@ -261,6 +328,13 @@ int main(){
     // for camera rotation controls
     vec2 cam_rotate_axes={0,0};
     vec2 cam_rotate_speed={0.05,0.05};
+
+    // Initialize 2D UI camera with aspect-ratio-aware AABB
+    // Height is fixed at 100, width scales with window aspect ratio
+    float ui_height = 100.0f;
+    float ui_width = ui_height * ((float)window.size[0] / (float)window.size[1]);
+    struct Camera2 camera_ui={};
+    Camera2_create((vec4){0, 0, ui_width, ui_height}, &camera_ui);
 
     bool window_should_close=false;
     int64_t framenum=0;
@@ -283,6 +357,16 @@ int main(){
                         window.size[0]=event->width;
                         window.size[1]=event->height;
                         glViewport(0,0,window.size[0],window.size[1]);
+
+                        const float new_aspect_ratio=window.size[0]/window.size[1];
+
+                        // update 3d camera aspect ratio
+                        camera.aspect_ratio=new_aspect_ratio;
+                        Camera3_updateMatrices(&camera);
+
+                        // Update UI camera AABB to maintain aspect ratio
+                        float new_ui_width = ui_height * new_aspect_ratio;
+                        Camera2_updateMatrices(&camera_ui, (vec4){0, 0, new_ui_width, ui_height});
                     }
                     break;
                 case XCB_KEY_PRESS:
@@ -317,12 +401,12 @@ int main(){
                                 break;
                             case XCB_KEYCODE_LEFT:
                                 {
-                                    cam_rotate_axes[1]=-1;
+                                    cam_rotate_axes[1]=1;
                                 }
                                 break;
                             case XCB_KEYCODE_RIGHT:
                                 {
-                                    cam_rotate_axes[1]=1;
+                                    cam_rotate_axes[1]=-1;
                                 }
                                 break;
                             case XCB_KEYCODE_UP:
@@ -336,7 +420,7 @@ int main(){
                                 }
                                 break;
                             case XCB_KEYCODE_SPACE:
-                                Camera_lookAt(&camera,(vec3){0,0,0});
+                                Camera3_lookAt(&camera,(vec3){0,0,0});
                                 break;
                         }
                     }
@@ -405,20 +489,25 @@ int main(){
         if(window_should_close) break;
 
         // move camera relative to its current orientation
-        vec3 forward;
-        quat_forward(camera.rotation, forward);
-        vec3 forward_move;
-        glm_vec3_scale(forward, cam_move_speed[0] * cam_move_axes[0], forward_move);
-        glm_vec3_add(camera.pos, forward_move, camera.pos);
+        if(1){
+            vec3 forward;
+            quat_forward(camera.rotation, forward);
+            vec3 forward_move;
+            glm_vec3_scale(forward, cam_move_speed[0] * cam_move_axes[0], forward_move);
+            glm_vec3_add(camera.pos, forward_move, camera.pos);
 
-        vec3 right;
-        quat_right(camera.rotation, right);
-        vec3 right_move;
-        glm_vec3_scale(right, cam_move_speed[1] * cam_move_axes[1], right_move);
-        glm_vec3_add(camera.pos, right_move, camera.pos);
+            vec3 right;
+            quat_right(camera.rotation, right);
+            vec3 right_move;
+            glm_vec3_scale(right, cam_move_speed[1] * cam_move_axes[1], right_move);
+            glm_vec3_add(camera.pos, right_move, camera.pos);
+        }
 
         // rotate camera based on arrow key input
         if(cam_rotate_axes[0] != 0 || cam_rotate_axes[1] != 0){
+            vec3 right;
+            quat_right(camera.rotation, right);
+
             // Get camera's local axes for rotation
             vec3 up;
             quat_up(camera.rotation, up);
@@ -449,22 +538,16 @@ int main(){
             glm_quat_copy(new_rotation, camera.rotation);
         }
 
-        Camera_updateMatrices(&camera);
+        Camera3_updateMatrices(&camera);
 
         Window_prepareDrawing(&window);
 
-            //Object_draw(&object);
+        Window_prepareDrawing3(&window);
+            Object_draw3(&image_object, &camera);
+            Object_draw3(&imported_object, &camera);
 
-            // Upload matrices to GPU
-            glUniformMatrix4fv(imported_object.material->view_loc,1,GL_FALSE,(float*)camera.view_mat);
-            glUniformMatrix4fv(imported_object.material->proj_loc,1,GL_FALSE,(float*)camera.proj_mat);
-
-            Object_draw(&image_object);
-
-            glUniformMatrix4fv(imported_object.material->view_loc,1,GL_FALSE,(float*)camera.view_mat);
-            glUniformMatrix4fv(imported_object.material->proj_loc,1,GL_FALSE,(float*)camera.proj_mat);
-
-            Object_draw(&imported_object);
+        Window_prepareDrawing2(&window);
+            Object_draw2(&ui_object, &camera_ui);
 
         Window_finishDrawing(&window);
     }

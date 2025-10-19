@@ -211,6 +211,17 @@ void Window_prepareDrawing(struct Window*window){
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
+
+void Window_prepareDrawing3(struct Window*window){
+    discard window;
+    glEnable(GL_DEPTH_TEST);
+}
+
+void Window_prepareDrawing2(struct Window*window){
+    discard window;
+    glDisable(GL_DEPTH_TEST);
+}
+
 void Window_finishDrawing(struct Window*window){
     auto egl_res=eglSwapBuffers(window->egl_display,window->egl_surface);
     CHECK(egl_res==EGL_TRUE,"eglSwapBuffers failed");

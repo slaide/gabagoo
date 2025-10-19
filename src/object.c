@@ -438,6 +438,20 @@ void Object_draw(struct Object*object){
     }
 }
 
+void Object_draw3(struct Object*object, struct Camera3*camera){
+    glUseProgram(object->material->shaderProgram);
+    glUniformMatrix4fv(object->material->view_loc,1,GL_FALSE,(float*)camera->view_mat);
+    glUniformMatrix4fv(object->material->proj_loc,1,GL_FALSE,(float*)camera->proj_mat);
+    Object_draw(object);
+}
+
+void Object_draw2(struct Object*object, struct Camera2*camera){
+    glUseProgram(object->material->shaderProgram);
+    glUniformMatrix4fv(object->material->view_loc,1,GL_FALSE,(float*)camera->view_mat);
+    glUniformMatrix4fv(object->material->proj_loc,1,GL_FALSE,(float*)camera->proj_mat);
+    Object_draw(object);
+}
+
 void Object_destroy(struct Object*object){
     free(object->children);
 }

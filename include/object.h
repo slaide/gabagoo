@@ -1,5 +1,8 @@
+#pragma once
+
 #include<cglm/cglm.h>
 #include<glad/gl.h>
+#include<camera.h>
 
 const char*fileContents(const char*filepath);
 
@@ -85,6 +88,10 @@ void Object_create(
 // after changing the transform, this flushes the update to the gpu
 void Object_updateTransformMatrix(struct Object*object);
 void Object_draw(struct Object*object);
+// Draw with 3D camera (uploads view/proj matrices)
+void Object_draw3(struct Object*object, struct Camera3*camera);
+// Draw with 2D camera (uploads view/proj matrices)
+void Object_draw2(struct Object*object, struct Camera2*camera);
 void Object_appendChild(struct Object*child,struct Object*parent);
 void Object_destroy(struct Object*object);
 void Mesh_parseObj(const char*path,struct Mesh*mesh);

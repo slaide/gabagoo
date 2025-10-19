@@ -43,7 +43,10 @@ struct WindowOptions{
 void Window_create(struct WindowOptions*options,struct SystemInterface*system_interface,struct Window*window);
 // call this before drawing objects
 void Window_prepareDrawing(struct Window*window);
-void Window_prepareDrawing(struct Window*window);
+// call this before drawing 3D objects (enables depth test)
+void Window_prepareDrawing3(struct Window*window);
+// call this before drawing 2D objects (disables depth test)
+void Window_prepareDrawing2(struct Window*window);
 // call this after drawing object
 void Window_finishDrawing(struct Window*window);
 void Window_setTitle(struct Window*window,const char*title);
