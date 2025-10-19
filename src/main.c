@@ -1,6 +1,7 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<unistd.h>
+#include<string.h>
 
 #include<xcb/xcb.h>
 
@@ -18,6 +19,119 @@ static float triangle_vertices[] = {
 static uint faces[]={
     0,1,2,
 };
+
+
+static float quad_vertices[]={
+    .5,  .5, 0,  1, 1,
+    .5, -.5, 0,  1, 0,
+    -.5, -.5, 0,  0, 0,
+    -.5,  .5, 0,  0, 1,
+};
+static uint quad_faces[2*3]={
+    0,1,2,
+    2,3,0,
+};
+
+struct Camera{
+    float horz_fov;
+    float aspect_ratio;
+
+    vec3 pos;
+    /*quat*/vec4 rotation;
+
+    mat4 proj_mat,view_mat;
+};
+void Camera_create(
+    float horz_fov,
+    float aspect_ratio,
+
+    struct Camera*camera
+){
+    *camera=(struct Camera){
+        .horz_fov=horz_fov,
+        .aspect_ratio=aspect_ratio
+    };
+
+    glm_quat_identity(camera->rotation);
+}
+
+static void quat_right(vec4 quat, vec3 out){
+    // Extract right vector (+X axis) by rotating (1, 0, 0)
+    vec3 right = {1.0f, 0.0f, 0.0f};
+    glm_quat_rotatev(quat, right, out);
+}
+
+static void quat_forward(vec4 quat, vec3 out){
+    // Extract forward vector (+Y axis) by rotating (0, 1, 0)
+    vec3 forward = {0.0f, 1.0f, 0.0f};
+    glm_quat_rotatev(quat, forward, out);
+}
+
+static void quat_up(vec4 quat, vec3 out){
+    // Extract up vector (+Z axis) by rotating (0, 0, 1)
+    vec3 up = {0.0f, 0.0f, 1.0f};
+    glm_quat_rotatev(quat, up, out);
+}
+
+void Camera_lookAt(struct Camera*camera, vec3 target){
+    // Calculate forward direction (from camera to target)
+    vec3 forward;
+    glm_vec3_sub(target, camera->pos, forward);
+    glm_vec3_normalize(forward);
+
+    // World up vector (Z-up)
+    vec3 world_up = {0.0f, 0.0f, 1.0f};
+
+    // Calculate right vector as cross product of forward × world_up
+    vec3 right;
+    glm_vec3_cross(forward, world_up, right);
+    float right_len = glm_vec3_norm(right);
+
+    // Handle edge case: forward is parallel to world_up
+    if (right_len < 0.0001f) {
+        // Forward is pointing straight up or down
+        // Use a different reference axis
+        vec3 forward_alt = {0.0f, 1.0f, 0.0f};
+        glm_vec3_cross(forward, forward_alt, right);
+    }
+    glm_vec3_normalize(right);
+
+    // Recalculate up as right × forward to ensure orthonormality
+    vec3 up;
+    glm_vec3_cross(right, forward, up);
+    glm_vec3_normalize(up);
+
+    // Build rotation matrix from basis vectors
+    // Camera's local frame: right = +X, up = +Z (world), forward = +Y
+    mat3 basis = {
+        {right[0], right[1], right[2]},
+        {forward[0], forward[1], forward[2]},
+        {up[0], up[1], up[2]}
+    };
+
+    // Convert rotation matrix to quaternion
+    glm_mat3_quat(basis, camera->rotation);
+}
+
+void Camera_updateMatrices(struct Camera*camera){
+    // Calculate forward vector from camera rotation
+    vec3 forward;
+    quat_forward(camera->rotation, forward);
+
+    // Calculate camera target point
+    vec3 cam_target;
+    glm_vec3_add(camera->pos, forward, cam_target);
+
+    // Calculate up vector by rotating (0, 0, 1) by the camera's rotation
+    vec3 up = {0.0f, 0.0f, 1.0f};
+    glm_quat_rotatev(camera->rotation, up, up);
+
+    // Build view matrix from position, target, and up
+    glm_lookat(camera->pos, cam_target, up, camera->view_mat);
+
+    // Update perspective projection matrix
+    glm_perspective(glm_rad(camera->horz_fov), camera->aspect_ratio, 0.1f, 100.0f, camera->proj_mat);
+}
 
 int main(){
     struct SystemInterface system_interface={};
@@ -68,17 +182,6 @@ int main(){
         &material,
         &object
     );
-
-    float quad_vertices[]={
-         .5,  .5, 0,  1, 1,
-         .5, -.5, 0,  1, 0,
-        -.5, -.5, 0,  0, 0,
-        -.5,  .5, 0,  0, 1,
-    };
-    uint quad_faces[2*3]={
-        0,1,2,
-        2,3,0,
-    };
 
     struct Material image_material;
     Material_create(
@@ -142,20 +245,25 @@ int main(){
     );
 
     // Initialize camera
-    struct{
-        vec3 pos;
-        /*quat*/vec4 rotation;
-        float horz_fov;
-    }camera={
-        .pos={1,1,1},
-        .horz_fov=75
-    };
-    glm_quat_identity(camera.rotation);
+    struct Camera camera={};
+    Camera_create(
+        75,
+        (float)window.size[0] / (float)window.size[1],
+        &camera
+    );
 
-    mat4 cam_view_mat, cam_proj_mat;
+    vec3 cam_position = {0.0f, 1.0f, 1.0f};
+    glm_vec3_copy(cam_position, camera.pos);
+    vec3 cam_target = {0.0f, 0.0f, 0.0f};
+    Camera_lookAt(&camera, cam_target);
 
+    // for camera move controls
     vec3 cam_move_axes={0,0,0};
     vec3 cam_move_speed={0.1,0.1,0.1};
+
+    // for camera rotation controls
+    vec2 cam_rotate_axes={0,0};
+    vec2 cam_rotate_speed={0.05,0.05};
 
     bool window_should_close=false;
     int64_t framenum=0;
@@ -202,13 +310,36 @@ int main(){
                                 break;
                             case XCB_KEYCODE_A:
                                 {
-                                    cam_move_axes[1]=1;
+                                    cam_move_axes[1]=-1;
                                 }
                                 break;
                             case XCB_KEYCODE_D:
                                 {
-                                    cam_move_axes[1]=-1;
+                                    cam_move_axes[1]=1;
                                 }
+                                break;
+                            case XCB_KEYCODE_LEFT:
+                                {
+                                    cam_rotate_axes[1]=-1;
+                                }
+                                break;
+                            case XCB_KEYCODE_RIGHT:
+                                {
+                                    cam_rotate_axes[1]=1;
+                                }
+                                break;
+                            case XCB_KEYCODE_UP:
+                                {
+                                    cam_rotate_axes[0]=1;
+                                }
+                                break;
+                            case XCB_KEYCODE_DOWN:
+                                {
+                                    cam_rotate_axes[0]=-1;
+                                }
+                                break;
+                            case XCB_KEYCODE_SPACE:
+                                Camera_lookAt(&camera,(vec3){0,0,0});
                                 break;
                         }
                     }
@@ -237,6 +368,26 @@ int main(){
                                     cam_move_axes[1]=0;
                                 }
                                 break;
+                            case XCB_KEYCODE_LEFT:
+                                {
+                                    cam_rotate_axes[1]=0;
+                                }
+                                break;
+                            case XCB_KEYCODE_RIGHT:
+                                {
+                                    cam_rotate_axes[1]=0;
+                                }
+                                break;
+                            case XCB_KEYCODE_UP:
+                                {
+                                    cam_rotate_axes[0]=0;
+                                }
+                                break;
+                            case XCB_KEYCODE_DOWN:
+                                {
+                                    cam_rotate_axes[0]=0;
+                                }
+                                break;
                         }
                     }
                     break;
@@ -246,6 +397,9 @@ int main(){
                 case XCB_BUTTON_RELEASE:
                     {}
                     break;
+                case XCB_MOTION_NOTIFY:
+                    {}
+                    break;
                 default:
                     printf("unhandled event %d\n",event_type);
             }
@@ -253,48 +407,67 @@ int main(){
 
         if(window_should_close) break;
 
+        // move camera relative to its current orientation
+        vec3 forward;
+        quat_forward(camera.rotation, forward);
+        vec3 forward_move;
+        glm_vec3_scale(forward, cam_move_speed[0] * cam_move_axes[0], forward_move);
+        glm_vec3_add(camera.pos, forward_move, camera.pos);
+
+        vec3 right;
+        quat_right(camera.rotation, right);
+        vec3 right_move;
+        glm_vec3_scale(right, cam_move_speed[1] * cam_move_axes[1], right_move);
+        glm_vec3_add(camera.pos, right_move, camera.pos);
+
+        // rotate camera based on arrow key input
+        if(cam_rotate_axes[0] != 0 || cam_rotate_axes[1] != 0){
+            // Get camera's local axes for rotation
+            vec3 up;
+            quat_up(camera.rotation, up);
+            quat_right(camera.rotation, right);
+
+            // Create pitch rotation (around right axis)
+            vec4 pitch_quat;
+            if(cam_rotate_axes[0] != 0){
+                glm_quatv(pitch_quat, cam_rotate_speed[0] * cam_rotate_axes[0], right);
+            }else{
+                glm_quat_identity(pitch_quat);
+            }
+
+            // Create yaw rotation (around up axis)
+            vec4 yaw_quat;
+            if(cam_rotate_axes[1] != 0){
+                glm_quatv(yaw_quat, cam_rotate_speed[1] * cam_rotate_axes[1], up);
+            }else{
+                glm_quat_identity(yaw_quat);
+            }
+
+            // Apply yaw first, then pitch: combined_rotation = pitch * yaw * original_rotation
+            vec4 yaw_pitch;
+            glm_quat_mul(pitch_quat, yaw_quat, yaw_pitch);
+
+            vec4 new_rotation;
+            glm_quat_mul(yaw_pitch, camera.rotation, new_rotation);
+            glm_quat_copy(new_rotation, camera.rotation);
+        }
+
+        Camera_updateMatrices(&camera);
+
         Window_prepareDrawing(&window);
 
-        //Object_draw(&object);
+            //Object_draw(&object);
 
-        // move camera
-        glm_vec3_muladd(cam_move_axes,cam_move_speed,camera.pos);
-        // Update camera matrices
-        vec3 up = {0.0f, 0.0f, 1.0f};
-        vec3 cam_target={0,0,0};
-        glm_lookat(camera.pos, cam_target, up, cam_view_mat);
+            // Upload matrices to GPU
+            glUniformMatrix4fv(imported_object.material->view_loc,1,GL_FALSE,(float*)camera.view_mat);
+            glUniformMatrix4fv(imported_object.material->proj_loc,1,GL_FALSE,(float*)camera.proj_mat);
 
-        // Update perspective projection matrix
-        float aspect = (float)window.size[0] / (float)window.size[1];
-        glm_perspective(glm_rad(camera.horz_fov), aspect, 0.1f, 100.0f, cam_proj_mat);
+            Object_draw(&image_object);
 
-        // Setup matrices for image_object
-        GLint
-            view_loc=glGetUniformLocation(image_object.material->shaderProgram,"view"),
-            proj_loc=glGetUniformLocation(image_object.material->shaderProgram,"projection"),
-            model_loc=glGetUniformLocation(image_object.material->shaderProgram,"model");
+            glUniformMatrix4fv(imported_object.material->view_loc,1,GL_FALSE,(float*)camera.view_mat);
+            glUniformMatrix4fv(imported_object.material->proj_loc,1,GL_FALSE,(float*)camera.proj_mat);
 
-        mat4 obj_mat;
-        Transform_getModelMatrix(&image_object.transform,&obj_mat);
-
-        // Upload matrices to GPU
-        glUniformMatrix4fv(view_loc,1,GL_FALSE,(float*)cam_view_mat);
-        glUniformMatrix4fv(proj_loc,1,GL_FALSE,(float*)cam_proj_mat);
-        glUniformMatrix4fv(model_loc,1,GL_FALSE,(float*)obj_mat);
-
-        Object_draw(&image_object);
-
-            view_loc=glGetUniformLocation(imported_object.material->shaderProgram,"view"),
-            proj_loc=glGetUniformLocation(imported_object.material->shaderProgram,"projection"),
-            model_loc=glGetUniformLocation(imported_object.material->shaderProgram,"model");
-
-        Transform_getModelMatrix(&imported_object.transform,&obj_mat);
-
-        glUniformMatrix4fv(view_loc,1,GL_FALSE,(float*)cam_view_mat);
-        glUniformMatrix4fv(proj_loc,1,GL_FALSE,(float*)cam_proj_mat);
-        glUniformMatrix4fv(model_loc,1,GL_FALSE,(float*)obj_mat);
-
-        Object_draw(&imported_object);
+            Object_draw(&imported_object);
 
         Window_finishDrawing(&window);
     }

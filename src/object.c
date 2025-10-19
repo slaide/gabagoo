@@ -51,10 +51,19 @@ void Material_create(const char*vertexShaderPath,const char*fragmentShaderPath,s
     glAttachShader(shaderProgram,vertexShader);
     glLinkProgram(shaderProgram);
 
+    GLint
+        view_loc=glGetUniformLocation(shaderProgram,"view"),
+        proj_loc=glGetUniformLocation(shaderProgram,"projection"),
+        model_loc=glGetUniformLocation(shaderProgram,"model");
+
     *material=(struct Material){
         .vertexShader=vertexShader,
         .fragmentShader=fragmentShader,
         .shaderProgram=shaderProgram,
+        
+        .view_loc=view_loc,
+        .proj_loc=proj_loc,
+        .model_loc=model_loc
     };
 }
 
@@ -113,7 +122,6 @@ void Mesh_create(
 
 void Mesh_parseObj(const char*path,struct Mesh*mesh){
     const char*filecontents=fileContents(path);
-    printf("file\n%s\n",filecontents);
     const int len=strlen(filecontents);
 
     int num_v=0;
@@ -166,7 +174,6 @@ void Mesh_parseObj(const char*path,struct Mesh*mesh){
                                 vert[i]=strtof(p, &end);
                                 if(p==end)break;
                                 p=end;
-                                printf("v%d %f\n",i,vert[i]);
                             }
                             
                             num_v++;
@@ -188,7 +195,6 @@ void Mesh_parseObj(const char*path,struct Mesh*mesh){
                                 vert[i]=strtof(p, &end);
                                 if(p==end)break;
                                 p=end;
-                                printf("v%d %f\n",i,vert[i]);
                             }
                             
                             num_vn++;
@@ -210,7 +216,6 @@ void Mesh_parseObj(const char*path,struct Mesh*mesh){
                                 vert[i]=strtof(p, &end);
                                 if(p==end)break;
                                 p=end;
-                                printf("v%d %f\n",i,vert[i]);
                             }
                             
                             num_vt++;
@@ -359,10 +364,6 @@ void Mesh_parseObj(const char*path,struct Mesh*mesh){
         },
     };
 
-    for(int i=0;i<num_vertices;i++){
-        printf("vert %d: %f %f %f\n",i,vertices[i*8+0],vertices[i*8+1],vertices[i*8+2]);
-    }
-
     struct VertexInformation vertex_info={
         .num_vertices=num_vertices,
         .vertex_data=vertices,
@@ -410,6 +411,15 @@ void Object_create(
         .num_children=0,
         .children=nullptr
     };
+
+    Object_updateTransformMatrix(object);
+}
+void Object_updateTransformMatrix(struct Object*object){
+    mat4 obj_mat;
+    Transform_getModelMatrix(&object->transform,&obj_mat);
+    
+    glUseProgram(object->material->shaderProgram);
+    glUniformMatrix4fv(object->material->model_loc,1,GL_FALSE,(float*)obj_mat);
 }
 void Object_appendChild(struct Object*child,struct Object*parent){
     parent->num_children++;

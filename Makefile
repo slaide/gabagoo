@@ -5,8 +5,7 @@ CGLM_BUILD_DIR=$(CGLM_DIR)/build
 CGLM_LIB=$(CGLM_BUILD_DIR)/libcglm.a
 CGLM_INCLUDE=$(CGLM_DIR)/include
 
-CFLAGS=-std=gnu23 -Wall -Werror -Wextra -Wpedantic -g
-# -O2 -march=native
+CFLAGS=-std=gnu23 -Wall -Werror -Wextra -Wpedantic -g -O1 -march=native
 LFLAGS=
 #-flto
 INCLUDES=-Iinclude -I$(CGLM_INCLUDE)

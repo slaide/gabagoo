@@ -100,6 +100,7 @@ void Window_create(struct WindowOptions*options,struct SystemInterface*system_in
     egl_res=eglChooseConfig(egl_display, config_attribs, egl_configs, 64, &num_configs);
     CHECK(egl_res==EGL_TRUE,"eglChooseConfig failed");
 
+    if(0)
     for (int i = 0; i < num_configs; i++) {
         printf("--- Config %d ---\n", i);
 
@@ -127,7 +128,7 @@ void Window_create(struct WindowOptions*options,struct SystemInterface*system_in
             case EGL_LUMINANCE_BUFFER: printf("Luminance\n"); break;
             default: printf("unknown\n"); break;
         }
-    }
+    };
     
     EGLConfig egl_config=egl_configs[0];
 

@@ -1,10 +1,19 @@
 #include<cglm/cglm.h>
+#include<glad/gl.h>
 
 const char*fileContents(const char*filepath);
 
 struct Material{
-    uint vertexShader,fragmentShader;
+    uint
+        vertexShader,
+        fragmentShader;
+
     uint shaderProgram;
+
+    GLint
+        view_loc,
+        proj_loc,
+        model_loc;
 };
 void Material_create(const char*vertexShaderPath,const char*fragmentShaderPath,struct Material*material);
 
@@ -73,6 +82,8 @@ void Object_create(
 
     struct Object*object
 );
+// after changing the transform, this flushes the update to the gpu
+void Object_updateTransformMatrix(struct Object*object);
 void Object_draw(struct Object*object);
 void Object_appendChild(struct Object*child,struct Object*parent);
 void Object_destroy(struct Object*object);
