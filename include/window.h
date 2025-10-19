@@ -61,10 +61,23 @@ void Mesh_create(
     struct Mesh*mesh
 );
 
+struct Transform{
+    vec3 pos;
+    // quaternion
+    vec4 rot;
+    vec3 scale;
+};
+void Transform_getModelMatrix(struct Transform*transform,mat4*objet_matrix);
+
 /* can be drawn */
 struct Object{
+    struct Transform transform;
+
     struct Mesh*mesh;
     struct Material*material;
+
+    int num_children;
+    struct Object**children;
 };
 
 /**
@@ -80,7 +93,8 @@ void Object_create(
     struct Object*object
 );
 void Object_draw(struct Object*object);
-
+void Object_appendChild(struct Object*child,struct Object*parent);
+void Object_destroy(struct Object*object);
 
 struct Window{
     struct SystemInterface*system_interface;

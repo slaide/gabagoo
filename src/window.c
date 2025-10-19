@@ -105,16 +105,41 @@ void Mesh_create(
     };
 }
 
+void Transform_getModelMatrix(struct Transform*transform,mat4*object_matrix){
+    mat4 rotation_matrix;
+
+    // Initialize to identity
+    glm_mat4_identity(*object_matrix);
+
+    // Apply translation
+    glm_translate(*object_matrix, transform->pos);
+
+    // Apply rotation (convert quaternion to rotation matrix)
+    glm_quat_mat4(transform->rot, rotation_matrix);
+    glm_mat4_mul(*object_matrix, rotation_matrix, *object_matrix);
+
+    // Apply scale
+    glm_scale(*object_matrix, transform->scale);
+}
+
 void Object_create(
     struct Mesh*mesh,
     struct Material*material,
 
     struct Object*object
-){  
+){
     *object=(struct Object){
         .mesh=mesh,
-        .material=material
+        .material=material,
+
+        .num_children=0,
+        .children=nullptr
     };
+}
+void Object_appendChild(struct Object*child,struct Object*parent){
+    parent->num_children++;
+    parent->children=realloc(parent->children,parent->num_children*sizeof(struct Object*));
+    parent->children[parent->num_children-1]=child;
 }
 
 void Object_draw(struct Object*object){
@@ -122,6 +147,14 @@ void Object_draw(struct Object*object){
 
     glBindVertexArray(object->mesh->vao);
     glDrawElements(GL_TRIANGLES,object->mesh->num_faces*3,GL_UNSIGNED_INT,0);
+
+    for(int c=0;c<object->num_children;c++){
+        Object_draw(object->children[c]);
+    }
+}
+
+void Object_destroy(struct Object*object){
+    free(object->children);
 }
 
 void Window_create(struct WindowOptions*options,struct SystemInterface*system_interface,struct Window*window){

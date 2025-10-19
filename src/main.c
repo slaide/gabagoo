@@ -124,6 +124,32 @@ int main(){
         &image_object
     );
 
+    // Initialize camera
+    struct{
+        vec3 pos;
+        /*quat*/vec4 rotation;
+        float horz_fov;
+    }camera={
+        .pos[0]=1,
+        .pos[1]=1,
+        .pos[2]=1,
+        .horz_fov=75
+    };
+    glm_quat_identity(camera.rotation);
+
+    // Setup matrices for image_object
+    GLint
+        view_loc=glGetUniformLocation(image_object.material->shaderProgram,"view"),
+        proj_loc=glGetUniformLocation(image_object.material->shaderProgram,"projection"),
+        model_loc=glGetUniformLocation(image_object.material->shaderProgram,"model");
+
+    mat4 obj_mat;
+    glm_mat4_identity(obj_mat);
+
+    mat4 cam_view_mat, cam_proj_mat;
+
+    vec3 cam_move_axes={0,0,0};
+
     bool window_should_close=false;
     int64_t framenum=0;
     while(true){
@@ -151,14 +177,62 @@ int main(){
                 case XCB_KEY_PRESS:
                     {
                         xcb_key_press_event_t*event=(xcb_key_press_event_t*)raw_event;
-                        if(event->detail==XCB_KEYCODE_ESCAPE){
-                            printf("pressed escape. closing.\n");
-                            window_should_close=true;
+                        switch(event->detail){
+                            case XCB_KEYCODE_ESCAPE:
+                                {
+                                    printf("pressed escape. closing.\n");
+                                    window_should_close=true;
+                                }
+                                break;
+                            case XCB_KEYCODE_W:
+                                {
+                                    cam_move_axes[0]=1;
+                                }
+                                break;
+                            case XCB_KEYCODE_S:
+                                {
+                                    cam_move_axes[0]=-1;
+                                }
+                                break;
+                            case XCB_KEYCODE_A:
+                                {
+                                    cam_move_axes[1]=1;
+                                }
+                                break;
+                            case XCB_KEYCODE_D:
+                                {
+                                    cam_move_axes[1]=-1;
+                                }
+                                break;
                         }
                     }
                     break;
                 case XCB_KEY_RELEASE:
-                    {}
+                    {
+                        xcb_key_release_event_t*event=(xcb_key_release_event_t*)raw_event;
+                        switch(event->detail){
+                            case XCB_KEYCODE_W:
+                                {
+                                    cam_move_axes[0]=0;
+                                }
+                                break;
+                            case XCB_KEYCODE_S:
+                                {
+                                    cam_move_axes[0]=0;
+                                }
+                                break;
+                            case XCB_KEYCODE_A:
+                                {
+                                    cam_move_axes[1]=0;
+                                }
+                                break;
+                            case XCB_KEYCODE_D:
+                                {
+                                    cam_move_axes[1]=0;
+                                }
+                                break;
+                        }
+                    }
                     break;
                 case XCB_BUTTON_PRESS:
                     {}
@@ -171,11 +245,29 @@ int main(){
             }
         }
 
+        camera.pos[0]+=cam_move_axes[0]*0.1;
+        camera.pos[1]+=cam_move_axes[1]*0.1;
+        camera.pos[2]+=cam_move_axes[2]*0.1;
+
         if(window_should_close) break;
 
         Window_prepareDrawing(&window);
 
-        Object_draw(&object);
+        //Object_draw(&object);
+
+        // Update camera matrices
+        vec3 up = {0.0f, 0.0f, 1.0f};
+        glm_lookat(camera.pos, (vec3){0.0f, 0.0f, 0.0f}, up, cam_view_mat);
+
+        // Update perspective projection matrix
+        float aspect = (float)window.size[0] / (float)window.size[1];
+        glm_perspective(glm_rad(camera.horz_fov), aspect, 0.1f, 100.0f, cam_proj_mat);
+
+        // Upload matrices to GPU
+        glUniformMatrix4fv(view_loc,1,GL_FALSE,(float*)cam_view_mat);
+        glUniformMatrix4fv(proj_loc,1,GL_FALSE,(float*)cam_proj_mat);
+        glUniformMatrix4fv(model_loc,1,GL_FALSE,(float*)obj_mat);
+
         Object_draw(&image_object);
 
         Window_finishDrawing(&window);
