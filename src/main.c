@@ -1,9 +1,6 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<unistd.h>
-#include<string.h>
-
-#include<xcb/xcb.h>
 
 #include<cglm/cglm.h>
 
