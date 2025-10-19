@@ -91,12 +91,6 @@ static void quat_forward(vec4 quat, vec3 out){
     glm_quat_rotatev(quat, forward, out);
 }
 
-static void quat_up(vec4 quat, vec3 out){
-    // Extract up vector (+Z axis) by rotating (0, 0, 1)
-    vec3 up = {0.0f, 0.0f, 1.0f};
-    glm_quat_rotatev(quat, up, out);
-}
-
 void Camera3_lookAt(struct Camera3*camera, vec3 target){
     // Calculate forward direction (from camera to target)
     vec3 forward;
@@ -505,15 +499,11 @@ int main(){
 
         // rotate camera based on arrow key input
         if(cam_rotate_axes[0] != 0 || cam_rotate_axes[1] != 0){
+            // Get camera's right axis for pitch rotation
             vec3 right;
             quat_right(camera.rotation, right);
 
-            // Get camera's local axes for rotation
-            vec3 up;
-            quat_up(camera.rotation, up);
-            quat_right(camera.rotation, right);
-
-            // Create pitch rotation (around right axis)
+            // Create pitch rotation (around camera's right axis)
             vec4 pitch_quat;
             if(cam_rotate_axes[0] != 0){
                 glm_quatv(pitch_quat, cam_rotate_speed[0] * cam_rotate_axes[0], right);
@@ -521,10 +511,11 @@ int main(){
                 glm_quat_identity(pitch_quat);
             }
 
-            // Create yaw rotation (around up axis)
+            // Create yaw rotation (around world up axis, not camera up)
+            vec3 world_up = {0.0f, 0.0f, 1.0f};
             vec4 yaw_quat;
             if(cam_rotate_axes[1] != 0){
-                glm_quatv(yaw_quat, cam_rotate_speed[1] * cam_rotate_axes[1], up);
+                glm_quatv(yaw_quat, cam_rotate_speed[1] * cam_rotate_axes[1], world_up);
             }else{
                 glm_quat_identity(yaw_quat);
             }
